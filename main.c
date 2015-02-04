@@ -6,7 +6,7 @@
 /*   By: mmole <mmole@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/02 16:26:20 by mmole             #+#    #+#             */
-/*   Updated: 2015/02/02 16:26:52 by mmole            ###   ########.fr       */
+/*   Updated: 2015/02/04 17:16:30 by mmole            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 #include <stdio.h>
 
-t_dlist	*ft_create_list(int val)
+t_dlist	*ft_create_elem(int val)
 {
 	t_dlist	*newlist;
 
@@ -31,91 +31,119 @@ t_dlist	*ft_create_list(int val)
 	return (newlist);
 }
 
-void	ft_add_elem(t_dlist **list, int val)
+void	ft_add_elem(t_dlist **list, t_dlist *new_elem)
 {
-	t_dlist	*new_elem;
-
-	new_elem = (t_dlist *)malloc(sizeof(t_dlist));
-	if (new_elem)
-	{
-		new_elem->val = val;
-		(*list)->prev->next = new_elem;
-		new_elem->prev = (*list)->prev;
-		new_elem->next = *list;
-		(*list)->prev = new_elem;	
-	}
+	(*list)->prev->next = new_elem;
+	new_elem->prev = (*list)->prev;
+	new_elem->next = *list;
+	(*list)->prev = new_elem;
 }
 
 void	ft_delete_elem(t_dlist **elem)
 {
-	if ((*elem)->next == *elem && (*elem)->prev == (*elem))
-	{
-		free(*elem);
-		return ;
-	}		
-		printf("cas1\n");
+	t_dlist	*tmp;
+
+	tmp = *elem;
 	(*elem)->prev->next = (*elem)->next;
 	(*elem)->next->prev = (*elem)->prev;
-	free(*elem);
+	free(tmp);
+	tmp = NULL;
+}
+
+t_dlist	*ft_pop_last(t_dlist **list)
+{
+	t_dlist	*tmp;
+	t_dlist	*new_elem;
+
+	tmp = (*list)->prev;
+	new_elem = ft_create_elem(tmp->val);
+	(*list)->prev = tmp->prev;
+	(*list)->prev->next = (*list);
+	free(tmp);
+	tmp = NULL;
+	return (new_elem);
 }
 
 int	main()
 {
-	t_dlist	*test;
+	t_dlist	*list;
 	t_dlist	*tmp;
+	t_dlist	*list2;
+	t_dlist	*tmp2;
 
-	test = ft_create_list(42);
-	tmp = test;
-	ft_delete_elem(&tmp);
-	//tmp = test;
-	printf("delete du dernier elements\n\n");
+	list = ft_create_elem(42);
+	list2 = NULL;
+	ft_add_elem(&list, ft_create_elem(10));
+	ft_add_elem(&list, ft_create_elem(23));
 
-	//test = tmp->prev;
-	printf("test: %d\n", tmp->val);
+	printf("list1:\n");
+	tmp = list->next;
+	while (tmp != list)
+	{
+		printf("elem: %d\n", tmp->prev->val);
+		tmp = tmp->next;
+	}
+	printf("elem: %d\n", tmp->prev->val);
 
-	// ft_add_elem(&test, 10);
-	// printf("verif en sortie : list: %d, l-next: %d, l-prev: %d\n", test->val, test->next->val, test->prev->val);		
-	// // printf("elem1: %d\n", test->val);
-	// // printf("elem1: %d\n", test->next->val);
-	// // test = test->next;
-	// // printf("elem1: %d\n", test->val);
-	// // printf("elem1: %d\n", test->next->val);
-	// ft_add_elem(&test, 22);
-	// printf("verif en sortie : list: %d, l-next: %d, l-prev: %d\n", test->val, test->next->val, test->prev->val);		
-	// ft_add_elem(&test, 82);
-	// printf("verif en sortie : list: %d, l-next: %d, l-prev: %d\n", test->val, test->next->val, test->prev->val);		
-	// ft_add_elem(&test, 7);
-	// printf("verif en sortie : list: %d, l-next: %d, l-prev: %d\n", test->val, test->next->val, test->prev->val);		
-	// ft_add_elem(&test, 36);
-	// printf("verif en sortie : list: %d, l-next: %d, l-prev: %d\n", test->val, test->next->val, test->prev->val);		
-	// ft_add_elem(&test, 1);
-	// printf("verif en sortie : list: %d, l-next: %d, l-prev: %d\n", test->val, test->next->val, test->prev->val);		
-	// t_dlist	*tmp;
-	// tmp = test->prev;
+	printf("list2:\n");
+	if (list2)
+	{
+		tmp2 = list->next;
 
-	// while (tmp != test)
-	// {
-	// 	printf("elem: %d\n", tmp->val);
-	// 	tmp = tmp->prev;
-	// }
-	// printf("elem: %d\n", tmp->val);
+		while (tmp2 != list)
+		{
+			printf("elem: %d\n", tmp2->prev->val);
+			tmp2 = tmp->next;
+		}
+		printf("elem: %d\n", tmp2->prev->val);		
+	}
 
+	list2 = ft_pop_last(&list);
+	printf("list1:\n");
+	tmp = list->next;
+	while (tmp != list)
+	{
+		printf("elem: %d\n", tmp->prev->val);
+		tmp = tmp->next;
+	}
+	printf("elem: %d\n", tmp->prev->val);
 
-	// ft_delete_elem(tmp);
-	// printf("delete du dernier elements\n\n");
+	printf("list2:\n");
+	if (list2)
+	{
+		tmp2 = list2->next;
 
-	// test = tmp->prev;
-	// printf("test: %d\n", test->val);
-	// tmp = test->prev;
-	// printf("elem: %d, prev: %d, next: %d, test: %d\n", tmp->val, tmp->prev->val, tmp->next->val, test->val);
-	// while (tmp != test)
-	// {
-	// 	printf("elem: %d\n", tmp->next->val);
-	// 	tmp = tmp->prev;
-	// }
-	// printf("elem: %d\n", tmp->next->val);
+		while (tmp2 != list2)
+		{
+			printf("elem: %d\n", tmp2->prev->val);
+			tmp2 = tmp2->next;
+		}
+		printf("elem: %d\n", tmp2->prev->val);		
+	}
 
 
+	ft_add_elem(&list2, ft_pop_last(&list));
+	printf("list1:\n");
+	tmp = list->next;
+	while (tmp != list)
+	{
+		printf("elem: %d\n", tmp->prev->val);
+		tmp = tmp->next;
+	}
+	printf("elem: %d\n", tmp->prev->val);
+
+	printf("list2:\n");
+	if (list2)
+	{
+		tmp2 = list2->next;
+		printf("tmp2: %d, list2: %d\n", tmp2->val, list2->val);
+		while (tmp2 != list2)
+		{
+			printf("elem: %d\n", tmp2->prev->val);
+			tmp2 = tmp2->next;
+		}
+		printf("elem: %d\n", tmp2->prev->val);		
+	}
 	return (0);
 }
 /*
