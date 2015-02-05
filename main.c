@@ -9,7 +9,7 @@
 /*   Updated: 2015/02/04 17:16:30 by mmole            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
+	
 #include "libft/includes/libft.h"
 #include "push_swap.h"
 #include "stdlib.h"
@@ -31,12 +31,21 @@ t_dlist	*ft_create_elem(int val)
 	return (newlist);
 }
 
-void	ft_add_elem(t_dlist **list, t_dlist *new_elem)
+void	ft_add_elem(t_dlist **list, t_dlist *new_elem) // pour a
 {
 	(*list)->prev->next = new_elem;
 	new_elem->prev = (*list)->prev;
 	new_elem->next = *list;
 	(*list)->prev = new_elem;
+}
+
+void	ft_add_head_elem(t_dlist **list, t_dlist *new_elem) // pour b
+{
+	(*list)->prev->next = new_elem;
+	new_elem->prev = (*list)->prev;
+	new_elem->next = *list;
+	(*list)->prev = new_elem;
+	(*list) = new_elem;
 }
 
 void	ft_delete_elem(t_dlist **elem)
@@ -50,7 +59,7 @@ void	ft_delete_elem(t_dlist **elem)
 	tmp = NULL;
 }
 
-t_dlist	*ft_pop_last(t_dlist **list)
+t_dlist	*ft_pop_last(t_dlist **list) // prend de a pour b
 {
 	t_dlist	*tmp;
 	t_dlist	*new_elem;
@@ -64,17 +73,60 @@ t_dlist	*ft_pop_last(t_dlist **list)
 	return (new_elem);
 }
 
+t_dlist	*ft_pop_first(t_dlist **list) // prend de b pour a
+{
+	t_dlist	*tmp;
+	t_dlist	*new_elem;
+
+	tmp = (*list);
+	new_elem = ft_create_elem(tmp->val);
+	(*list)->prev = tmp->prev;
+	(*list)->prev->next = (*list)->next;
+	(*list) = (*list)->next;
+	free(tmp);
+	tmp = NULL;
+	return (new_elem);
+}
+
+void	ft_s_inverse_list(t_dlist	**list) // sa // sb
+{
+	t_dlist	*tmp;
+	int		val;
+
+	tmp = *list;
+	val = tmp->next->val;
+	tmp->next->val = tmp->val;
+	tmp->val = val;
+}
+
+void	ft_ss_list(t_dlist	**list_a, t_dlist	**list_b)
+{
+	ft_s_inverse_list(list_a);
+	ft_s_inverse_list(list_b);
+}
+
+void	ft_pa_list(t_dlist ** list_a, t_dlist	**list_b)
+{
+	ft_add_elem(list_a, ft_pop_first(list_b));
+}
+
+void	ft_pb_list(t_dlist ** list_a, t_dlist	**list_b)
+{
+	ft_add_elem(list_b, ft_pop_last(list_a));
+}
+
 int	main()
 {
 	t_dlist	*list;
 	t_dlist	*tmp;
 	t_dlist	*list2;
-	t_dlist	*tmp2;
+	t_dlist *tmp2;
 
-	list = ft_create_elem(42);
 	list2 = NULL;
+	list = ft_create_elem(42);
 	ft_add_elem(&list, ft_create_elem(10));
-	ft_add_elem(&list, ft_create_elem(23));
+	ft_add_elem(&list, ft_create_elem(32));
+	ft_add_elem(&list, ft_create_elem(7));
 
 	printf("list1:\n");
 	tmp = list->next;
@@ -120,7 +172,6 @@ int	main()
 		}
 		printf("elem: %d\n", tmp2->prev->val);		
 	}
-
 
 	ft_add_elem(&list2, ft_pop_last(&list));
 	printf("list1:\n");
