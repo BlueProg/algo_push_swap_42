@@ -17,104 +17,6 @@
 
 #include <stdio.h>
 
-t_dlist	*ft_create_elem(int val)
-{
-	t_dlist	*newlist;
-
-	newlist = (t_dlist *)malloc(sizeof(t_dlist));
-	if (newlist)
-	{
-		newlist->val = val;
-		newlist->prev = newlist;
-		newlist->next = newlist;
-	}
-	return (newlist);
-}
-
-void	ft_add_elem(t_dlist **list, t_dlist *new_elem) // pour a
-{
-	(*list)->prev->next = new_elem;
-	new_elem->prev = (*list)->prev;
-	new_elem->next = *list;
-	(*list)->prev = new_elem;
-}
-
-void	ft_add_head_elem(t_dlist **list, t_dlist *new_elem) // pour b
-{
-	(*list)->prev->next = new_elem;
-	new_elem->prev = (*list)->prev;
-	new_elem->next = *list;
-	(*list)->prev = new_elem;
-	(*list) = new_elem;
-}
-
-void	ft_delete_elem(t_dlist **elem)
-{
-	t_dlist	*tmp;
-
-	tmp = *elem;
-	(*elem)->prev->next = (*elem)->next;
-	(*elem)->next->prev = (*elem)->prev;
-	free(tmp);
-	tmp = NULL;
-}
-
-t_dlist	*ft_pop_last(t_dlist **list) // prend de a pour b
-{
-	t_dlist	*tmp;
-	t_dlist	*new_elem;
-
-	tmp = (*list)->prev;
-	new_elem = ft_create_elem(tmp->val);
-	(*list)->prev = tmp->prev;
-	(*list)->prev->next = (*list);
-	free(tmp);
-	tmp = NULL;
-	return (new_elem);
-}
-
-t_dlist	*ft_pop_first(t_dlist **list) // prend de b pour a
-{
-	t_dlist	*tmp;
-	t_dlist	*new_elem;
-
-	tmp = (*list);
-	new_elem = ft_create_elem(tmp->val);
-	(*list)->prev = tmp->prev;
-	(*list)->prev->next = (*list)->next;
-	(*list) = (*list)->next;
-	free(tmp);
-	tmp = NULL;
-	return (new_elem);
-}
-
-void	ft_s_inverse_list(t_dlist	**list) // sa // sb
-{
-	t_dlist	*tmp;
-	int		val;
-
-	tmp = *list;
-	val = tmp->next->val;
-	tmp->next->val = tmp->val;
-	tmp->val = val;
-}
-
-void	ft_ss_list(t_dlist	**list_a, t_dlist	**list_b)
-{
-	ft_s_inverse_list(list_a);
-	ft_s_inverse_list(list_b);
-}
-
-void	ft_pa_list(t_dlist ** list_a, t_dlist	**list_b)
-{
-	ft_add_elem(list_a, ft_pop_first(list_b));
-}
-
-void	ft_pb_list(t_dlist ** list_a, t_dlist	**list_b)
-{
-	ft_add_elem(list_b, ft_pop_last(list_a));
-}
-
 int	main()
 {
 	t_dlist	*list;
@@ -127,6 +29,10 @@ int	main()
 	ft_add_elem(&list, ft_create_elem(10));
 	ft_add_elem(&list, ft_create_elem(32));
 	ft_add_elem(&list, ft_create_elem(7));
+	ft_add_elem(&list, ft_create_elem(32));
+	ft_add_elem(&list, ft_create_elem(2));
+	ft_add_elem(&list, ft_create_elem(64));
+	ft_add_elem(&list, ft_create_elem(8));
 
 	printf("list1:\n");
 	tmp = list->next;
@@ -151,28 +57,8 @@ int	main()
 	}
 
 	list2 = ft_pop_last(&list);
-	printf("list1:\n");
-	tmp = list->next;
-	while (tmp != list)
-	{
-		printf("elem: %d\n", tmp->prev->val);
-		tmp = tmp->next;
-	}
-	printf("elem: %d\n", tmp->prev->val);
-
-	printf("list2:\n");
-	if (list2)
-	{
-		tmp2 = list2->next;
-
-		while (tmp2 != list2)
-		{
-			printf("elem: %d\n", tmp2->prev->val);
-			tmp2 = tmp2->next;
-		}
-		printf("elem: %d\n", tmp2->prev->val);		
-	}
-
+	ft_add_elem(&list2, ft_pop_last(&list));
+	ft_add_elem(&list2, ft_pop_last(&list));
 	ft_add_elem(&list2, ft_pop_last(&list));
 	printf("list1:\n");
 	tmp = list->next;
@@ -187,7 +73,28 @@ int	main()
 	if (list2)
 	{
 		tmp2 = list2->next;
-		printf("tmp2: %d, list2: %d\n", tmp2->val, list2->val);
+		while (tmp2 != list2)
+		{
+			printf("elem: %d\n", tmp2->prev->val);
+			tmp2 = tmp2->next;
+		}
+		printf("elem: %d\n", tmp2->prev->val);		
+	}
+
+	ft_multi_rotate_list(&list, &list2);
+	printf("MULTIROTATE\nlist1:\n");
+	tmp = list->next;
+	while (tmp != list)
+	{
+		printf("elem: %d\n", tmp->prev->val);
+		tmp = tmp->next;
+	}
+	printf("elem: %d\n", tmp->prev->val);
+
+	printf("list2:\n");
+	if (list2)
+	{
+		tmp2 = list2->next;
 		while (tmp2 != list2)
 		{
 			printf("elem: %d\n", tmp2->prev->val);
@@ -197,20 +104,3 @@ int	main()
 	}
 	return (0);
 }
-/*
-	stocker les elements dans le bon ordre.
-	pour inverser facilement le 1er et le dernier element, les listes rotatives sont plus adaptées.
-
-*/
-
-// 2 1 3 6 5 8
-// 1 2 3 6 5 8
-
-// 6 5 8
-// 3 2 1
-
-// 5 6 8
-// 3 2 1
-
-// 1 2 3 5 6 8
-

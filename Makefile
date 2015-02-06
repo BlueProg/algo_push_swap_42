@@ -10,7 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRC		=		main.c 
+SRC		=		main.c ft_fonction_list.c ft_fonction_rotation.c \
+				ft_fonction_swap.c
 			
 OBJ		=		$(SRC:.c=.o)
 
