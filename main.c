@@ -14,8 +14,51 @@
 #include "push_swap.h"
 #include "stdlib.h"
 
+// !!!
 
+// Voir correction et gestion derror !
+
+// !!!
 #include <stdio.h>
+
+int		ft_is_sort(t_dlist **a)
+{
+	t_dlist	*tmp;
+
+	tmp = (*a)->next;
+	while (tmp != *a)
+	{
+		if (tmp->prev->val > tmp->val)
+			return (0);
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
+void	ft_resolve(t_dlist **a, t_dlist **b)
+{
+	while (1)
+	{
+		if ((*b) == NULL && ft_is_sort(a))
+			break ;
+		if ((*a)->prev->val < (*a)->val)
+		{
+			ft_rotate_list(a);
+			ft_putstr("ra");
+		}
+		else if ((*a)->prev->val > (*a)->val)
+		{
+			ft_inverse_rotate_list(a);
+			ft_putstr("rra");
+		}
+		else if ((*a)->next->val < (*a)->val)
+		{
+			ft_inverse_rotate_list(a);
+			ft_putstr("sa");
+		}
+		
+	}
+}
 
 int	main()
 {

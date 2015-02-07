@@ -32,7 +32,6 @@ void				ft_pb_list(t_dlist **list_a, t_dlist **list_b);
 void				ft_rotate_list(t_dlist **list);
 void				ft_multi_rotate_list(t_dlist **list_a, t_dlist **list_b);
 void				ft_inverse_rotate_list(t_dlist **list);
-void				ft_inverse_multi_rotate_list(t_dlist **list_a, t_dlist **list_b);
-
+void				ft_inverse_multi_rotate_list(t_dlist **, t_dlist **);
 
 #endif
