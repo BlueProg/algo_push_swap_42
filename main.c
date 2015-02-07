@@ -37,15 +37,8 @@ int		ft_is_sort(t_dlist **a)
 
 void	ft_resolve(t_dlist **a, t_dlist **b)
 {
-	// int i;
-	// // t_dlist	*tmp;
-	// // t_dlist *tmp2;
-
-	// i = 0;
 	while (1)
 	{
-		// if (i > 20)
-		// 	return ;
 		if ((*a) && (*b) == NULL && ft_is_sort(a))
 			return ;
 		if ((*a) && (*a)->prev->val < (*a)->val)
@@ -80,62 +73,43 @@ void	ft_resolve(t_dlist **a, t_dlist **b)
 		}
 		if (!((*a) && (*b) == NULL && ft_is_sort(a)))
 			ft_putstr(" ");
-		// printf("\nlist en resolve:\n");
-		// tmp = (*a)->next;
-		// while (tmp != (*a))
-		// {
-		// 	printf("elem: %d\n", tmp->prev->val);
-		// 	tmp = tmp->next;
-		// }
-		// printf("elem: %d\n\n", tmp->prev->val);
-		// if (*b)
-		// {
-		// 	tmp2 = (*b)->next;
-		// 	while (tmp2 != (*b))
-		// 	{
-		// 		printf("elem2: %d\n", tmp2->prev->val);
-		// 		tmp2 = tmp2->next;
-		// 	}
-		// 	printf("elem2: %d\n", tmp2->prev->val);
-		// }
-		// i++;
 	}
 }
 
-int	main()
+int	main(int argc, char **argv)
 {
 	t_dlist	*list;
 	t_dlist	*tmp;
 	t_dlist	*list2;
 
+	list = NULL;
 	list2 = NULL;
-	list = ft_create_elem(42);
-	// ft_add_elem(&list, ft_create_elem(10));
-	// ft_add_elem(&list, ft_create_elem(32));
-	// ft_add_elem(&list, ft_create_elem(7));
-	// ft_add_elem(&list, ft_create_elem(32));
-	// ft_add_elem(&list, ft_create_elem(2));
-	// ft_add_elem(&list, ft_create_elem(64));
-	// ft_add_elem(&list, ft_create_elem(8));
-	
-	list = ft_create_elem(2);
-	ft_add_elem(&list, ft_create_elem(1));
-	ft_add_elem(&list, ft_create_elem(3));
-	ft_add_elem(&list, ft_create_elem(6));
-	ft_add_elem(&list, ft_create_elem(5));
-	ft_add_elem(&list, ft_create_elem(8));
-
-
-	printf("list avant resolve:\n");
-	tmp = list->next;
-	while (tmp != list)
+	if (argc > 1)
 	{
-		printf("elem: %d\n", tmp->prev->val);
-		tmp = tmp->next;
+		while (*++argv)
+		{
+			if (ft_atoi(*argv) != 0 || (*argv)[0] == '0')
+				ft_add_elem(&list, ft_create_elem(ft_atoi(*argv)));
+		}
+		if (list == NULL)
+			ft_putendl_fd("Give list integer format \"x x x\", thank you", 2);
 	}
-	printf("elem: %d\n", tmp->prev->val);
+	else
+		ft_putendl_fd("Give list integer format \"x x x\", thank you", 2);
 
-	ft_resolve(&list, &list2);
-	ft_putchar('\n');
+	if (list)
+	{
+		ft_resolve(&list, &list2);
+		// tmp = list->next;
+		// while (tmp != list)
+		// {
+		// 	printf("elem: %d\n", tmp->prev->val);
+		// 	tmp = tmp->next;
+		// }
+		// printf("elem: %d\n", tmp->prev->val);
+	}
+
+	
+	// ft_putchar('\n');
 	return (0);
 }
