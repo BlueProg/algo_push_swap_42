@@ -27,11 +27,11 @@ t_dlist				*ft_pop_last(t_dlist **list);
 t_dlist				*ft_pop_first(t_dlist **list);
 void				ft_s_inverse_list(t_dlist **list);
 void				ft_ss_list(t_dlist **list_a, t_dlist **list_b);
-void				ft_pa_list(t_dlist **list_a, t_dlist **list_b);
-void				ft_pb_list(t_dlist **list_a, t_dlist **list_b);
+void				ft_push_list(t_dlist **list_a, t_dlist **list_b);
 void				ft_rotate_list(t_dlist **list);
 void				ft_multi_rotate_list(t_dlist **list_a, t_dlist **list_b);
 void				ft_inverse_rotate_list(t_dlist **list);
 void				ft_inverse_multi_rotate_list(t_dlist **, t_dlist **);
 
 #endif
+

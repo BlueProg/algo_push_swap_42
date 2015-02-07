@@ -29,12 +29,7 @@ void	ft_ss_list(t_dlist **list_a, t_dlist **list_b)
 	ft_s_inverse_list(list_b);
 }
 
-void	ft_pa_list(t_dlist **list_a, t_dlist **list_b)
+void	ft_push_list(t_dlist **list_a, t_dlist **list_b)
 {
-	ft_add_elem(list_a, ft_pop_first(list_b));
-}
-
-void	ft_pb_list(t_dlist **list_a, t_dlist **list_b)
-{
-	ft_add_elem(list_b, ft_pop_last(list_a));
+	ft_add_head_elem(list_a, ft_pop_first(list_b));
 }

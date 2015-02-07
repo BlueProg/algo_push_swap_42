@@ -30,33 +30,29 @@ t_dlist	*ft_create_elem(int val)
 
 void	ft_add_elem(t_dlist **list, t_dlist *new_elem)
 {
-	(*list)->prev->next = new_elem;
-	new_elem->prev = (*list)->prev;
-	new_elem->next = *list;
-	(*list)->prev = new_elem;
+	if (*list == NULL)
+		*list = new_elem;
+	else
+	{
+		(*list)->prev->next = new_elem;
+		new_elem->prev = (*list)->prev;
+		new_elem->next = *list;
+		(*list)->prev = new_elem;
+	}
 }
 
 void	ft_add_head_elem(t_dlist **list, t_dlist *new_elem)
 {
-	(*list)->prev->next = new_elem;
-	new_elem->prev = (*list)->prev;
-	new_elem->next = *list;
-	(*list)->prev = new_elem;
-	(*list) = new_elem;
-}
-
-t_dlist	*ft_pop_last(t_dlist **list)
-{
-	t_dlist	*tmp;
-	t_dlist	*new_elem;
-
-	tmp = (*list)->prev;
-	new_elem = ft_create_elem(tmp->val);
-	(*list)->prev = tmp->prev;
-	(*list)->prev->next = (*list);
-	free(tmp);
-	tmp = NULL;
-	return (new_elem);
+	if (*list == NULL)
+		*list = new_elem;
+	else
+	{
+		(*list)->prev->next = new_elem;
+		new_elem->prev = (*list)->prev;
+		new_elem->next = *list;
+		(*list)->prev = new_elem;
+		(*list) = new_elem;
+	}
 }
 
 t_dlist	*ft_pop_first(t_dlist **list)
@@ -66,9 +62,11 @@ t_dlist	*ft_pop_first(t_dlist **list)
 
 	tmp = (*list);
 	new_elem = ft_create_elem(tmp->val);
-	(*list)->prev = tmp->prev;
-	(*list)->prev->next = (*list)->next;
 	(*list) = (*list)->next;
+	(*list)->prev = tmp->prev;
+	(*list)->prev->next = (*list);
+	if ((*list) == tmp)
+		(*list) = NULL;
 	free(tmp);
 	tmp = NULL;
 	return (new_elem);
