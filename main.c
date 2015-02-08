@@ -6,7 +6,7 @@
 /*   By: mmole <mmole@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/02 16:26:20 by mmole             #+#    #+#             */
-/*   Updated: 2015/02/04 17:16:30 by mmole            ###   ########.fr       */
+/*   Updated: 2015/02/08 20:37:04 by mmole            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_print_list(t_dlist **a, t_dlist **b)
 		l1 = l1->next;
 	}
 	ft_putendl(ft_itoa(l1->prev->val));
-	if (*b)
+	if (b && *b)
 	{
 		l2 = (*b)->next;
 		ft_putstr("List2 : ");
@@ -75,10 +75,14 @@ void	ft_next_resolve(t_dlist **a, t_dlist **b)
 
 void	ft_resolve(t_dlist **a, t_dlist **b, int optionv)
 {
+	int		sort;
+
+	sort = 0;
 	while (1)
 	{
 		if ((*a) && (*b) == NULL && ft_is_sort(a))
-			return ;
+			break ;
+		sort = 1;
 		ft_next_resolve(a, b);
 		if (!((*a) && (*b) == NULL && ft_is_sort(a)))
 		{
@@ -90,26 +94,29 @@ void	ft_resolve(t_dlist **a, t_dlist **b, int optionv)
 		if (optionv == 1)
 			ft_print_list(a, b);
 	}
+	if (sort == 1)
+		ft_putchar('\n');
 }
 
 int		main(int argc, char **argv)
 {
 	t_dlist	*list;
 	t_dlist	*list2;
+	int		optionv;
 
 	list = NULL;
 	list2 = NULL;
-	while (argc > 1 && *++argv)
+	optionv = 0;
+	if (argc == 1)
 	{
-		if (ft_atoi(*argv) != 0 || (*argv)[0] == '0')
-			ft_add_elem(&list, ft_create_elem(ft_atoi(*argv)));
+		ft_putendl_fd("Error", 2);
+		return (0);
 	}
+	if (ft_parse_data(argv, &list, &optionv))
+		return (0);
+	if (argc > 1 && ft_check_double(list))
+		return (0);
 	if (list)
-	{
-		ft_resolve(&list, &list2, 0);
-		ft_putchar('\n');
-	}
-	else
-		ft_putendl_fd("Give list integer format \"x x x\", thank you", 2);
+		ft_resolve(&list, &list2, optionv);
 	return (0);
 }

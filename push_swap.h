@@ -6,7 +6,7 @@
 /*   By: mmole <mmole@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/02 17:39:27 by mmole             #+#    #+#             */
-/*   Updated: 2015/02/02 17:41:10 by mmole            ###   ########.fr       */
+/*   Updated: 2015/02/08 20:37:20 by mmole            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,7 @@ t_dlist				*ft_pop_first(t_dlist **list);
 void				ft_s_inverse_list(t_dlist **list, int number);
 void				ft_push_list(t_dlist **list_a, t_dlist **list_b, int nb);
 void				ft_rotate_list(t_dlist **list, int number);
+int					ft_parse_data(char **data, t_dlist **list, int *option);
+int					ft_check_double(t_dlist *list);
 
 #endif

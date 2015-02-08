@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 SRC		=		main.c ft_fonction_list.c ft_fonction_rotation.c \
-				ft_fonction_swap.c
+				ft_fonction_swap.c ft_parsing.c
 			
 OBJ		=		$(SRC:.c=.o)
 
