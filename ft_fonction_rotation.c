@@ -11,25 +11,13 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include "libft/includes/libft.h"
 
-void	ft_rotate_list(t_dlist **list)
+void	ft_rotate_list(t_dlist **list, int number)
 {
 	*list = (*list)->next;
-}
-
-void	ft_multi_rotate_list(t_dlist **list_a, t_dlist **list_b)
-{
-	*list_a = (*list_a)->next;
-	*list_b = (*list_b)->next;
-}
-
-void	ft_inverse_rotate_list(t_dlist **list)
-{
-	*list = (*list)->prev;
-}
-
-void	ft_inverse_multi_rotate_list(t_dlist **list_a, t_dlist **list_b)
-{
-	*list_a = (*list_a)->prev;
-	*list_b = (*list_b)->prev;
+	if (number == 1)
+		ft_putstr("ra");
+	else
+		ft_putstr("rb");
 }

@@ -11,8 +11,9 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include "libft/includes/libft.h"
 
-void	ft_s_inverse_list(t_dlist **list)
+void	ft_s_inverse_list(t_dlist **list, int number)
 {
 	t_dlist	*tmp;
 	int		val;
@@ -21,15 +22,17 @@ void	ft_s_inverse_list(t_dlist **list)
 	val = tmp->next->val;
 	tmp->next->val = tmp->val;
 	tmp->val = val;
+	if (number == 1)
+		ft_putstr("sa");
+	else
+		ft_putstr("sb");
 }
 
-void	ft_ss_list(t_dlist **list_a, t_dlist **list_b)
-{
-	ft_s_inverse_list(list_a);
-	ft_s_inverse_list(list_b);
-}
-
-void	ft_push_list(t_dlist **list_a, t_dlist **list_b)
+void	ft_push_list(t_dlist **list_a, t_dlist **list_b, int number)
 {
 	ft_add_head_elem(list_a, ft_pop_first(list_b));
+	if (number == 1)
+		ft_putstr("pa");
+	else
+		ft_putstr("pb");
 }
