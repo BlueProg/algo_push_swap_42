@@ -40,9 +40,12 @@ int				ft_parse_data(char **tab, t_dlist **list, int *option)
 			*option = 1;
 		else
 		{
-			if (ft_is_not_number(tab[i]))
+			if (ft_is_not_number(tab[i]) || (ft_strlen(tab[i]) > 11) ||
+				((ft_strlen(tab[i]) == 11) && (ft_strcmp(tab[i], "-2147483648")
+				> 0)) || ((ft_strlen(tab[i]) == 10)
+				&& (ft_strcmp(tab[i], "2147483647") > 0)))
 			{
-				ft_putendl_fd("Error", 2);
+				ft_putendl_fd("Error 2", 2);
 				return (1);
 			}
 			ft_add_elem(list, ft_create_elem(ft_atoi(tab[i])));
